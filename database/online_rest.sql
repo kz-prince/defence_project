@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jul 12, 2023 at 04:05 PM
+-- Generation Time: Jul 16, 2023 at 02:22 PM
 -- Server version: 10.4.27-MariaDB
 -- PHP Version: 8.1.12
 
@@ -41,7 +41,8 @@ CREATE TABLE `admin` (
 --
 
 INSERT INTO `admin` (`adm_id`, `username`, `password`, `email`, `code`, `date`) VALUES
-(1, 'admin', '123456', 'admin@gmail.com', '', '2023-07-12 12:30:53');
+(1, 'admin', '123456', 'admin@gmail.com', '', '2023-07-12 12:30:53'),
+(2, 'lary', 'lary123', 'kzprince1234@gmail.com', 'help12', '2023-07-12 22:02:44');
 
 -- --------------------------------------------------------
 
@@ -67,10 +68,10 @@ CREATE TABLE `customer` (
 --
 
 INSERT INTO `customer` (`customer_id`, `username`, `f_name`, `l_name`, `email`, `phone`, `password`, `address`, `status`, `date`) VALUES
-(1, 'SAL', 'Salman', 'Ansari', 'salman@gmail.com', '1324325445', 'a32de55ffd7a9c4101a0c5c8788b38ed', 'Mira Road', 1, '2021-04-07 08:43:49'),
 (2, 'PAR', 'Parth', 'Desai', 'parth@gmail.com', '4325345332', 'bc28715006af20d0e961afd053a984d9', 'Vasai', 1, '2021-04-07 08:44:35'),
 (3, 'HIT', 'Hitesh', 'Gosavi', 'hitesh@gmail.com', '4325345332', '58b2318af54435138065ee13dd8bea16', 'Malad', 1, '2021-04-07 08:44:53'),
-(5, 'Djieuga', 'Ryle', 'Djieuga', 'ryle@gmail.com', '1324325445', 'e10adc3949ba59abbe56e057f20f883e', 'home', 1, '2023-07-12 13:59:29');
+(5, 'Djieuga', 'Ryle', 'Djieuga', 'ryle@gmail.com', '1324325445', 'e10adc3949ba59abbe56e057f20f883e', 'home', 1, '2023-07-12 13:59:29'),
+(7, 'che', 'Che', 'Oneal', 'kzprince1234@gmail.com', '2376547982', 'e4ae2208b0d4a6bfd528d8ce3c606d7c', 'Ndokoti', 1, '2023-07-13 01:58:40');
 
 -- --------------------------------------------------------
 
@@ -79,14 +80,14 @@ INSERT INTO `customer` (`customer_id`, `username`, `f_name`, `l_name`, `email`, 
 --
 
 CREATE TABLE `customer_orders` (
-  `o_id` int(11) DEFAULT NULL,
+  `o_id` int(100) NOT NULL,
   `customer_id` int(11) DEFAULT NULL,
   `product_id` int(11) DEFAULT NULL,
   `title` varchar(222) DEFAULT NULL,
   `quantity` int(11) DEFAULT NULL,
   `price` double DEFAULT NULL,
   `status` varchar(222) DEFAULT NULL,
-  `date` datetime DEFAULT NULL
+  `date` datetime DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -98,9 +99,9 @@ INSERT INTO `customer_orders` (`o_id`, `customer_id`, `product_id`, `title`, `qu
 (3, 4, 3, 'Murgh Tikka Biryani', 1, 470, 'closed', '2021-07-16 21:37:16'),
 (4, 4, 2, 'Chicken Achari', 1, 250, NULL, '2021-07-16 20:14:01'),
 (5, 4, 5, 'Pink Spaghetti Gamberoni', 1, 380, NULL, '2021-07-16 20:36:15'),
-(6, 5, 3, 'Murgh Tikka Biryani', 1, 470, NULL, '2021-07-16 20:37:39'),
 (7, 5, 1, 'Paneer Saag', 1, 390, NULL, '2021-07-16 20:37:39'),
-(8, 5, 5, 'Pink Spaghetti Gamberoni', 1, 380, NULL, '2021-07-16 20:49:30');
+(9, 5, NULL, 'Paneer Saag', 12, 390, NULL, NULL),
+(20, 7, NULL, 'Pink Spaghetti Gamberoni', 4, 380, NULL, '2023-07-14 23:47:35');
 
 -- --------------------------------------------------------
 
@@ -109,7 +110,7 @@ INSERT INTO `customer_orders` (`o_id`, `customer_id`, `product_id`, `title`, `qu
 --
 
 CREATE TABLE `products` (
-  `product_id` int(11) DEFAULT NULL,
+  `product_id` int(100) NOT NULL,
   `rs_id` int(11) DEFAULT NULL,
   `title` varchar(222) DEFAULT NULL,
   `slogan` varchar(222) DEFAULT NULL,
@@ -146,11 +147,11 @@ INSERT INTO `products` (`product_id`, `rs_id`, `title`, `slogan`, `price`, `img`
 --
 
 CREATE TABLE `remark` (
-  `id` int(11) DEFAULT NULL,
+  `id` int(100) NOT NULL,
   `frm_id` int(11) DEFAULT NULL,
   `status` varchar(255) DEFAULT NULL,
   `remark` mediumtext DEFAULT NULL,
-  `remarkDate` datetime DEFAULT NULL
+  `remarkDate` datetime DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -160,7 +161,9 @@ CREATE TABLE `remark` (
 INSERT INTO `remark` (`id`, `frm_id`, `status`, `remark`, `remarkDate`) VALUES
 (1, 1, 'closed', 'happy', '2021-07-16 00:45:56'),
 (2, 3, 'closed', 'Done', '2021-07-16 21:37:16'),
-(3, 1, 'closed', 'Done', '2021-07-16 22:15:25');
+(3, 1, 'closed', 'Done', '2021-07-16 22:15:25'),
+(4, 8, 'closed', 'Received successfully', NULL),
+(8, 4, 'closed', 'Reservation confirmed!.', '2023-07-16 13:19:51');
 
 -- --------------------------------------------------------
 
@@ -169,7 +172,7 @@ INSERT INTO `remark` (`id`, `frm_id`, `status`, `remark`, `remarkDate`) VALUES
 --
 
 CREATE TABLE `reservation` (
-  `reservation_id` int(11) DEFAULT NULL,
+  `reservation_id` int(100) NOT NULL,
   `customer_id` int(11) DEFAULT NULL,
   `tablenumber` int(11) DEFAULT NULL,
   `bookingdate` datetime DEFAULT NULL,
@@ -183,8 +186,9 @@ CREATE TABLE `reservation` (
 
 INSERT INTO `reservation` (`reservation_id`, `customer_id`, `tablenumber`, `bookingdate`, `expecteddate`, `status`) VALUES
 (1, 4, 1, '2021-07-16 00:00:00', '2021-07-17 00:00:00', 'closed'),
-(4, 5, 2, '2021-07-16 00:00:00', '2021-07-17 00:00:00', NULL),
-(8, 5, 8, '2021-07-16 00:00:00', '2021-07-24 00:00:00', NULL);
+(4, 5, 2, '2021-07-16 00:00:00', '2021-07-17 00:00:00', 'closed'),
+(5, 1, 2, '2023-07-14 00:00:00', '2023-07-15 00:00:00', NULL),
+(6, 1, 2, '2023-07-14 00:00:00', '2023-07-15 00:00:00', NULL);
 
 -- --------------------------------------------------------
 
@@ -212,7 +216,6 @@ CREATE TABLE `restaurant` (
 --
 
 INSERT INTO `restaurant` (`rs_id`, `c_id`, `title`, `email`, `phone`, `url`, `o_hr`, `c_hr`, `o_days`, `address`, `image`, `date`) VALUES
-(1, 1, 'Gazebo', 'gazebo@gmail.com', '4312533432', 'www.gazebo.com', '12pm', '12am', 'Mon-Sat', 'Borivali', '606d71a81ec5d.jpg', '2021-04-07 09:18:19'),
 (2, 2, 'Eataly', 'eataly@gmail.com', '0557426406', 'www.eataly.com', '11am', '9pm', 'Mon-Sat', 'Goregaon', '606d720b5fc71.jpg', '2021-04-07 08:49:15'),
 (3, 3, 'Mainland China', 'mainland@china.com', '4326538776', 'www.mainlandchina.com', '8am', '9pm', 'Mon-Fri', 'Malad', '606d72653306f.jpg', '2021-04-07 08:50:45'),
 (4, 4, 'TGI Fridays', 'tgi@gmail.com', '2342353325', 'www.tgif.com', '9am', '9pm', 'Mon-Sat', 'Lower Parel', '606d72a49503a.jpg', '2021-04-07 08:51:48');
@@ -224,9 +227,9 @@ INSERT INTO `restaurant` (`rs_id`, `c_id`, `title`, `email`, `phone`, `url`, `o_
 --
 
 CREATE TABLE `res_category` (
-  `c_id` int(11) DEFAULT NULL,
+  `c_id` int(100) NOT NULL,
   `c_name` varchar(222) DEFAULT NULL,
-  `date` datetime DEFAULT NULL
+  `date` datetime DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -237,7 +240,8 @@ INSERT INTO `res_category` (`c_id`, `c_name`, `date`) VALUES
 (1, 'Indian', '2021-04-07 14:15:20'),
 (2, 'Italian', '2021-04-07 14:15:23'),
 (3, 'Chinese', '2021-04-07 14:15:25'),
-(4, 'American', '2021-04-07 14:15:28');
+(4, 'American', '2021-04-07 14:15:28'),
+(11, 'fufu and eru and canda', '2023-07-14 23:10:28');
 
 --
 -- Indexes for dumped tables
@@ -256,10 +260,40 @@ ALTER TABLE `customer`
   ADD PRIMARY KEY (`customer_id`);
 
 --
+-- Indexes for table `customer_orders`
+--
+ALTER TABLE `customer_orders`
+  ADD PRIMARY KEY (`o_id`);
+
+--
+-- Indexes for table `products`
+--
+ALTER TABLE `products`
+  ADD PRIMARY KEY (`product_id`);
+
+--
+-- Indexes for table `remark`
+--
+ALTER TABLE `remark`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `reservation`
+--
+ALTER TABLE `reservation`
+  ADD PRIMARY KEY (`reservation_id`);
+
+--
 -- Indexes for table `restaurant`
 --
 ALTER TABLE `restaurant`
   ADD PRIMARY KEY (`rs_id`);
+
+--
+-- Indexes for table `res_category`
+--
+ALTER TABLE `res_category`
+  ADD PRIMARY KEY (`c_id`);
 
 --
 -- AUTO_INCREMENT for dumped tables
@@ -269,19 +303,49 @@ ALTER TABLE `restaurant`
 -- AUTO_INCREMENT for table `admin`
 --
 ALTER TABLE `admin`
-  MODIFY `adm_id` int(222) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `adm_id` int(222) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `customer`
 --
 ALTER TABLE `customer`
-  MODIFY `customer_id` int(222) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `customer_id` int(222) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+
+--
+-- AUTO_INCREMENT for table `customer_orders`
+--
+ALTER TABLE `customer_orders`
+  MODIFY `o_id` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
+
+--
+-- AUTO_INCREMENT for table `products`
+--
+ALTER TABLE `products`
+  MODIFY `product_id` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
+
+--
+-- AUTO_INCREMENT for table `remark`
+--
+ALTER TABLE `remark`
+  MODIFY `id` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+
+--
+-- AUTO_INCREMENT for table `reservation`
+--
+ALTER TABLE `reservation`
+  MODIFY `reservation_id` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT for table `restaurant`
 --
 ALTER TABLE `restaurant`
   MODIFY `rs_id` int(222) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+
+--
+-- AUTO_INCREMENT for table `res_category`
+--
+ALTER TABLE `res_category`
+  MODIFY `c_id` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

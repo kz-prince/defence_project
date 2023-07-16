@@ -31,7 +31,8 @@ echo "Table booking done";
 
  
 
-mysql_close($db)
+// mysql_close($db)
+$mysqli->close();
 
 ?>
 <button onclick="goBack()">Go Back</button>

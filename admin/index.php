@@ -15,7 +15,7 @@ if (isset($_POST['submit'])) {
       $_SESSION["adm_id"] = $row['adm_id'];
       header("refresh:1;dashboard.php");
     } else {
-      echo "<script>alert('Invalid Username or Password:');</script>";
+      echo "<script>alert('Invalid Username or Password for admin:');</script>";
     }
   }
 }

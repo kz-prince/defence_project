@@ -225,7 +225,6 @@ session_start();
     </div>
 
 
-    <footer class="footer"> © 2021 All rights reserved.</footer>
 
     </div>
 
